@@ -1,10 +1,16 @@
 import requests
-link = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=DATE&api_key=API_KEY"
-api_key = "07c78q1vzrqWcrWxqCtbJzh27p0ADSDZ4zuR8CeQ"
-query_params = {"api_key": api_key, "earth_date": "2022-01-01"}
-response = requests.get(link, params=query_params)
+from datetime import date
+
+today = str(date.today())
+print(today) 
+link = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?"
+api_key = "LBdaecawyGyPbftYLxO1T3FxoKJsJBBFb5XgfaEV" #мой апи ключ, у каждого он свой, можно исп-ть demo-ключ
+request_params = {"earth_date":"2019-06-03", "api_key":api_key} #тут можно прописать дату
+response = requests.get(link, params=request_params)
 response
-#response.json()
+response.json()
 photos = response.json()["photos"]
 print(f"Найдено {len(photos)} фотографий.")
-photos[1]["img_src"]
+for number in range(len(photos)):
+    #if number!=0:
+        photos[number]["img_src"]#выдает фото
