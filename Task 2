@@ -1,0 +1,30 @@
+import requests
+from datetime import date
+from datetime import datetime  
+from datetime import timedelta 
+from statistics import mean 
+
+today = str(date.today())
+print(today) 
+link = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?"
+api_key = "LBdaecawyGyPbftYLxO1T3FxoKJsJBBFb5XgfaEV" #мой апи ключ, у каждого он свой, можно исп-ть demo-ключ
+list_photo=[]# список кол-ва фото/день за неделю 
+date_="2019-06-03"# ввод даты
+
+year, month, day = (int(x) for x in date_.split('-'))    
+day_of_week = date(year, month, day).weekday()
+day_of_week # находится номер дня недели по заданной дате, 0-пн
+
+for i in range(6):
+    date_=str(date_ + timedelta(-day_of_week-i))# вычисляется дата первого дня недели и прогоняется по всем дням недели
+    request_params = {"earth_date":date_, "api_key":api_key} 
+    response = requests.get(link, params=request_params)
+    #response
+    #response.json()
+    photos = response.json()["photos"]
+    print(f"Найдено {len(photos)} фотографий.")
+    list_photo.append(len(photos))
+list_photo
+print(f"Минимум фото: {min(list_photo)} .")
+print(f"Максимум фото: {max(list_photo)} .")
+print(f"Среднее значение фото: {mean(list_photo)} .")
